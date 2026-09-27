@@ -5,6 +5,8 @@ import { fileURLToPath } from 'node:url'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
+  // כתובות יחסיות — האתר עובד גם תחת נתיב משנה (GitHub Pages) וגם בדומיין עצמאי
+  base: './',
   server: {
     port: Number(process.env.PORT) || 5173,
     strictPort: true,
