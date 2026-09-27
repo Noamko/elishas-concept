@@ -1,0 +1,9 @@
+node_modules
+dist
+.DS_Store
+*.local
+
+# SSL certificates and keys — never commit
+certs/*
+!certs/README.md
+nginx/ssl.conf

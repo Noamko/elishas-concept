@@ -1,0 +1,968 @@
+/* ===============================================
+   אלישע׳ס קונספט — עיצוב ראשי
+   =============================================== */
+
+:root {
+  --bg: #F6F5F1;
+  --surface: #FFFFFF;
+  --ink: #172423;
+  --muted: #5C6B68;
+  --line: #E5E2D9;
+
+  --teal-900: #0B4A44;
+  --teal-700: #0F6E64;
+  --teal-600: #128577;
+  --teal-tint: #E7F1EF;
+  --band: #0C2E29;
+
+  --amber: #D97706;
+  --amber-dark: #B45309;
+
+  --radius: 20px;
+  --shadow-sm: 0 1px 2px rgba(23, 36, 35, 0.05);
+  --shadow-md: 0 14px 34px -14px rgba(23, 36, 35, 0.18);
+  --shadow-lg: 0 28px 60px -20px rgba(10, 40, 36, 0.35);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: 'Heebo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+img, svg { display: block; max-width: 100%; }
+
+h1, h2, h3, h4 { margin: 0; line-height: 1.2; }
+p { margin: 0; }
+
+a { color: var(--teal-700); }
+
+.container {
+  width: min(1120px, 100% - 48px);
+  margin-inline: auto;
+}
+
+/* ---------- כפתורים ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.8rem 1.6rem;
+  border-radius: 999px;
+  font: 600 1rem/1 'Heebo', sans-serif;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  white-space: nowrap;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+.btn svg { width: 19px; height: 19px; flex: none; }
+
+.btn-primary {
+  background: var(--teal-700);
+  color: #fff;
+}
+.btn-primary:hover { background: var(--teal-900); box-shadow: var(--shadow-md); }
+
+.btn-amber {
+  background: var(--amber);
+  color: #fff;
+}
+.btn-amber:hover { background: var(--amber-dark); box-shadow: 0 14px 30px -12px rgba(180, 83, 9, 0.5); }
+
+.btn-ghost {
+  background: transparent;
+  border-color: color-mix(in srgb, var(--ink) 22%, transparent);
+  color: var(--ink);
+}
+.btn-ghost:hover { background: color-mix(in srgb, var(--ink) 6%, transparent); }
+
+.btn-light {
+  background: #fff;
+  color: var(--teal-900);
+}
+.btn-light:hover { box-shadow: 0 14px 30px -12px rgba(0, 0, 0, 0.35); }
+
+.btn-lg { padding: 0.95rem 2rem; font-size: 1.06rem; }
+
+/* ---------- כותרת עליונה ---------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  height: 74px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: none;
+  color: var(--ink);
+  font-weight: 800;
+  font-size: 1.18rem;
+}
+.brand-mark {
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border-radius: 11px;
+  background: var(--teal-700);
+  display: grid;
+  place-items: center;
+}
+.brand-mark svg { width: 24px; height: 24px; }
+.brand small {
+  display: block;
+  font-weight: 500;
+  font-size: 0.72rem;
+  color: var(--muted);
+  line-height: 1.2;
+}
+
+.site-nav ul {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.site-nav a {
+  text-decoration: none;
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 0.98rem;
+  transition: color 0.15s ease;
+}
+.site-nav a:hover { color: var(--ink); }
+.site-nav .btn { color: #fff; }
+
+.nav-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  cursor: pointer;
+  place-items: center;
+  color: var(--ink);
+}
+.nav-toggle svg { width: 22px; height: 22px; }
+.nav-toggle .icon-close { display: none; }
+.nav-toggle[aria-expanded="true"] .icon-menu { display: none; }
+.nav-toggle[aria-expanded="true"] .icon-close { display: block; }
+
+/* ---------- Hero ---------- */
+
+.hero {
+  position: relative;
+  padding: 84px 0 72px;
+  overflow: hidden;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -40% -20% auto auto;
+  width: 720px;
+  height: 720px;
+  background: radial-gradient(circle at center, rgba(18, 133, 119, 0.13), transparent 62%);
+  pointer-events: none;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto auto -55% -15%;
+  width: 640px;
+  height: 640px;
+  background: radial-gradient(circle at center, rgba(217, 119, 6, 0.09), transparent 62%);
+  pointer-events: none;
+}
+
+.hero-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--teal-tint);
+  color: var(--teal-900);
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 0.42rem 1rem;
+  border-radius: 999px;
+}
+.eyebrow::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--teal-600);
+}
+
+.hero h1 {
+  margin-top: 22px;
+  font-size: clamp(2.3rem, 4.8vw, 3.55rem);
+  font-weight: 900;
+  line-height: 1.13;
+}
+
+.lead {
+  margin-top: 18px;
+  font-size: 1.19rem;
+  line-height: 1.75;
+  color: var(--muted);
+  max-width: 52ch;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.hero-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 26px;
+  margin-top: 36px;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.hero-points li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.hero-points svg { width: 17px; height: 17px; color: var(--teal-600); flex: none; }
+
+/* ---------- כריכות ספרים ---------- */
+
+.hero-covers {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 26px 0 40px;
+}
+.hero-covers::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 72%;
+  height: 34px;
+  background: radial-gradient(closest-side, rgba(10, 40, 36, 0.22), transparent);
+  filter: blur(6px);
+}
+.hero-covers .cover-photo { width: min(46%, 248px); flex: none; }
+.hero-covers .cover-pos-back {
+  transform: rotate(8deg) translateY(18px);
+  margin-inline-start: -24px;
+  z-index: 1;
+  order: 2;
+}
+.hero-covers .cover-pos-front {
+  transform: rotate(-6deg);
+  z-index: 2;
+  order: 1;
+}
+
+.cover-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px 5px 5px 12px; /* שדרה בצד ימין — ספר עברי */
+  box-shadow: var(--shadow-lg), 0 4px 12px rgba(10, 40, 36, 0.18);
+}
+
+/* ---------- מקטעים ---------- */
+
+.section { padding: 92px 0; }
+.section-surface { background: var(--surface); border-block: 1px solid var(--line); }
+
+.section-head { max-width: 660px; margin-bottom: 46px; }
+.kicker {
+  display: block;
+  color: var(--teal-700);
+  font-weight: 700;
+  font-size: 0.92rem;
+  margin-bottom: 10px;
+}
+.section-head h2 {
+  font-size: clamp(1.85rem, 3.1vw, 2.45rem);
+  font-weight: 800;
+}
+.section-head p {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 1.08rem;
+}
+
+/* ---------- כרטיסי ספרים ---------- */
+
+.books-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.book-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  padding: 30px;
+  display: grid;
+  grid-template-columns: 168px 1fr;
+  gap: 28px;
+  align-items: start;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.book-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+.book-card > a { text-decoration: none; }
+.book-card .cover-photo { width: 100%; }
+.book-card h3 { font-size: 1.42rem; font-weight: 800; }
+.book-card .card-tag {
+  display: inline-block;
+  background: var(--teal-tint);
+  color: var(--teal-900);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.18rem 0.75rem;
+  margin-bottom: 10px;
+}
+.book-card p { margin-top: 10px; color: var(--muted); font-size: 0.99rem; }
+
+.check-list {
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+.check-list li { display: flex; align-items: baseline; gap: 9px; }
+.check-list svg {
+  width: 16px;
+  height: 16px;
+  color: var(--teal-600);
+  flex: none;
+  transform: translateY(2px);
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+.price { font-size: 1.35rem; font-weight: 800; }
+.price small { font-size: 0.8rem; font-weight: 500; color: var(--muted); display: block; }
+.card-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.card-actions .btn { padding: 0.66rem 1.25rem; font-size: 0.95rem; }
+
+/* ---------- מקטע הקורס ---------- */
+
+.course-band {
+  background:
+    radial-gradient(90% 120% at 85% -10%, rgba(26, 156, 140, 0.35), transparent 55%),
+    linear-gradient(150deg, #0E3D36 0%, var(--band) 70%);
+  color: #EAF4F2;
+  border-radius: 34px;
+  padding: clamp(34px, 5vw, 60px);
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 52px;
+  align-items: center;
+  box-shadow: var(--shadow-lg);
+}
+.course-band .kicker { color: #7FD6C9; }
+.course-band h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; }
+.course-band > div > p { margin-top: 14px; color: rgba(234, 244, 242, 0.78); font-size: 1.07rem; }
+
+.course-features {
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.course-features li {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-size: 0.97rem;
+  font-weight: 500;
+}
+.course-features .feature-ico {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  display: grid;
+  place-items: center;
+}
+.course-features svg { width: 20px; height: 20px; color: #7FD6C9; }
+
+.course-band .band-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 30px; }
+
+.lesson-strip {
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 22px;
+  padding: 10px;
+  backdrop-filter: blur(4px);
+}
+.lesson-strip-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px 8px;
+  font-size: 0.85rem;
+  color: rgba(234, 244, 242, 0.65);
+}
+.lesson-strip ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.lesson-strip li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 14px;
+  font-size: 0.94rem;
+  border-radius: 12px;
+}
+.lesson-strip li + li { margin-top: 2px; }
+.lesson-strip li:hover { background: rgba(255, 255, 255, 0.06); }
+.lesson-num {
+  width: 26px;
+  height: 26px;
+  flex: none;
+  border-radius: 50%;
+  background: rgba(127, 214, 201, 0.16);
+  color: #7FD6C9;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+
+/* ---------- אודות ---------- */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+.portrait {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: 26px;
+  background: linear-gradient(165deg, var(--teal-tint), #D6E8E4);
+  border: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.portrait-wrap { position: relative; }
+.portrait-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 22px -20px -20px 22px;
+  border: 2px solid var(--teal-700);
+  border-radius: 26px;
+  z-index: -1;
+  opacity: 0.5;
+}
+
+.about-text h2 { font-size: clamp(1.85rem, 3vw, 2.4rem); font-weight: 800; }
+.about-text p { margin-top: 16px; color: var(--muted); font-size: 1.05rem; }
+.about-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.about-chips li {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--teal-900);
+}
+
+/* ---------- צור קשר ---------- */
+
+.contact-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  box-shadow: var(--shadow-sm);
+  padding: clamp(36px, 5vw, 56px);
+  text-align: center;
+  max-width: 720px;
+  margin-inline: auto;
+}
+.contact-card h2 { font-size: clamp(1.7rem, 2.8vw, 2.2rem); font-weight: 800; }
+.contact-card p { margin-top: 12px; color: var(--muted); font-size: 1.05rem; }
+.contact-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 26px;
+}
+
+/* ---------- פוטר ---------- */
+
+.site-footer {
+  background: #0B211E;
+  color: #A9C2BE;
+  padding: 44px 0;
+  font-size: 0.93rem;
+}
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  font-weight: 700;
+}
+.footer-brand .brand-mark { width: 32px; height: 32px; border-radius: 9px; }
+.footer-brand .brand-mark svg { width: 20px; height: 20px; }
+.footer-nav { display: flex; gap: 22px; flex-wrap: wrap; }
+.footer-nav a { color: #A9C2BE; text-decoration: none; }
+.footer-nav a:hover { color: #fff; }
+
+/* ---------- דיאלוג רכישה ---------- */
+
+dialog.buy-dialog {
+  border: none;
+  border-radius: 26px;
+  padding: 0;
+  max-width: 430px;
+  width: calc(100% - 32px);
+  box-shadow: var(--shadow-lg);
+  background: var(--surface);
+  color: var(--ink);
+}
+dialog.buy-dialog::backdrop {
+  background: rgba(10, 33, 30, 0.55);
+  backdrop-filter: blur(3px);
+}
+.buy-dialog-inner { padding: 34px; position: relative; text-align: center; }
+.buy-dialog h3 { font-size: 1.35rem; font-weight: 800; }
+.buy-dialog .buy-product { color: var(--teal-700); }
+.buy-dialog p { margin-top: 12px; color: var(--muted); font-size: 0.98rem; }
+.buy-dialog-actions { display: grid; gap: 10px; margin-top: 24px; }
+.buy-close {
+  position: absolute;
+  top: 14px;
+  inset-inline-start: 14px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+}
+.buy-close:hover { color: var(--ink); }
+.buy-close svg { width: 17px; height: 17px; }
+
+/* ---------- עמוד ספר ---------- */
+
+.page-hero { padding: 72px 0 84px; }
+.breadcrumbs {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 34px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.breadcrumbs a { color: var(--muted); text-decoration: none; }
+.breadcrumbs a:hover { color: var(--ink); }
+
+.book-hero-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 64px;
+  align-items: start;
+}
+.book-hero-grid .cover-photo { width: 100%; max-width: 320px; }
+.book-info h1 { font-size: clamp(2rem, 3.8vw, 2.9rem); font-weight: 900; }
+.book-info .lead { font-size: 1.1rem; }
+
+.buy-box {
+  margin-top: 28px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 22px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---------- פרקים ---------- */
+
+.chapters-list {
+  counter-reset: chapter;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 28px;
+}
+.chapters-list li {
+  counter-increment: chapter;
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 15px 20px;
+  font-weight: 500;
+}
+.chapters-list li::before {
+  content: counter(chapter, decimal-leading-zero);
+  font-weight: 800;
+  color: var(--teal-600);
+  font-size: 0.95rem;
+}
+
+/* ---------- כרטיסי המשך ---------- */
+
+.more-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+.more-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 28px;
+  text-decoration: none;
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.more-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.more-card .card-tag {
+  align-self: flex-start;
+  background: var(--teal-tint);
+  color: var(--teal-900);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.18rem 0.75rem;
+}
+.more-card h3 { font-size: 1.25rem; font-weight: 800; }
+.more-card p { color: var(--muted); font-size: 0.96rem; }
+.more-card .link-arrow {
+  margin-top: 8px;
+  color: var(--teal-700);
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ---------- עמוד קורס ---------- */
+
+.course-hero { padding: 64px 0 44px; }
+.course-hero h1 { font-size: clamp(2rem, 3.8vw, 2.8rem); font-weight: 900; }
+.course-hero .lead { max-width: 62ch; }
+.course-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+.course-meta span {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.38rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--teal-900);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.course-meta svg { width: 16px; height: 16px; color: var(--teal-600); }
+
+.player-layout {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 28px;
+  align-items: start;
+  padding-bottom: 92px;
+}
+
+.player-card {
+  background: #0B1F1C;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  position: sticky;
+  top: 96px;
+}
+.player-frame {
+  aspect-ratio: 16 / 9;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(80% 100% at 50% 0%, rgba(26, 156, 140, 0.18), transparent 60%),
+    #0B1F1C;
+}
+.player-frame iframe { width: 100%; height: 100%; border: 0; }
+.player-placeholder {
+  text-align: center;
+  color: #8FB0AB;
+  padding: 24px;
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+}
+.player-placeholder .lock-badge {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  display: grid;
+  place-items: center;
+}
+.player-placeholder .lock-badge svg { width: 26px; height: 26px; color: #7FD6C9; }
+.player-placeholder strong { color: #EAF4F2; font-size: 1.05rem; font-weight: 700; }
+.player-placeholder span { font-size: 0.9rem; }
+.player-meta {
+  padding: 18px 24px 20px;
+  color: #EAF4F2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.player-meta .now-playing { font-size: 0.8rem; color: #8FB0AB; display: block; }
+.player-meta strong { font-size: 1.08rem; font-weight: 700; }
+
+.lesson-list {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.lesson-list-head {
+  padding: 17px 22px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.lesson-list-head strong { font-size: 1.05rem; font-weight: 800; }
+.lesson-list-head span { font-size: 0.85rem; color: var(--muted); }
+.lesson-list ol { margin: 0; padding: 8px; list-style: none; }
+.lesson-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 14px;
+  background: transparent;
+  cursor: pointer;
+  font: 500 0.96rem/1.4 'Heebo', sans-serif;
+  color: var(--ink);
+  text-align: start;
+  transition: background 0.15s ease;
+}
+.lesson-item:hover { background: #F1F0EA; }
+.lesson-item .lesson-num {
+  background: var(--teal-tint);
+  color: var(--teal-900);
+}
+.lesson-item.active {
+  background: var(--teal-tint);
+}
+.lesson-item.active .lesson-num {
+  background: var(--teal-700);
+  color: #fff;
+}
+.lesson-item .lesson-title { flex: 1; }
+.lesson-item .lesson-dur {
+  font-size: 0.82rem;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.lesson-item .lesson-dur svg { width: 13px; height: 13px; }
+
+.course-cta {
+  margin-top: 20px;
+  background: linear-gradient(150deg, #0E3D36, var(--band));
+  color: #EAF4F2;
+  border-radius: 22px;
+  padding: 26px;
+  text-align: center;
+}
+.course-cta strong { display: block; font-size: 1.1rem; }
+.course-cta p { margin-top: 6px; font-size: 0.92rem; color: rgba(234, 244, 242, 0.75); }
+.course-cta .btn { margin-top: 16px; width: 100%; }
+
+/* ---------- אנימציית הופעה ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.in { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .btn, .book-card, .more-card { transition: none; }
+}
+
+/* ---------- רספונסיביות ---------- */
+
+@media (max-width: 980px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 30px; }
+  .hero { padding: 56px 0 48px; }
+  .hero-covers { padding-top: 10px; }
+  .hero-covers .cover-photo { width: min(44%, 230px); }
+
+  .books-grid { grid-template-columns: 1fr; }
+  .course-band { grid-template-columns: 1fr; gap: 36px; }
+  .about-grid { grid-template-columns: 1fr; gap: 44px; }
+  .portrait-wrap { max-width: 340px; }
+
+  .book-hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .book-hero-grid .cover-photo { margin-inline: auto; }
+  .chapters-list { grid-template-columns: 1fr; }
+  .more-grid { grid-template-columns: 1fr; }
+
+  .player-layout { grid-template-columns: 1fr; }
+  .player-card { position: static; }
+}
+
+@media (max-width: 760px) {
+  .nav-toggle { display: grid; }
+  .site-nav {
+    position: absolute;
+    top: 100%;
+    inset-inline: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    box-shadow: var(--shadow-md);
+    display: none;
+    padding: 18px 24px 24px;
+  }
+  .site-nav.open { display: block; }
+  .site-nav ul { flex-direction: column; align-items: stretch; gap: 6px; }
+  .site-nav a {
+    display: block;
+    padding: 11px 12px;
+    border-radius: 12px;
+    font-size: 1.05rem;
+  }
+  .site-nav li:not(.nav-cta-item) a:hover { background: var(--surface); }
+  .site-nav .nav-cta-item { margin-top: 10px; }
+  .site-nav .btn { width: 100%; }
+
+  .section { padding: 64px 0; }
+  .book-card { grid-template-columns: 1fr; }
+  .book-card .cover-photo { max-width: 200px; margin-inline: auto; }
+  .course-features { grid-template-columns: 1fr; }
+  .card-footer { align-items: stretch; flex-direction: column; }
+  .card-actions .btn { flex: 1; }
+}
