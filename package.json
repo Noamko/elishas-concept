@@ -7,9 +7,14 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "preview:pages": "vite build && vite preview --host --base /elishas-concept/"
   },
   "devDependencies": {
     "vite": "^7.1.0"
+  },
+  "dependencies": {
+    "@mux/mux-video": "^0.31.6",
+    "media-chrome": "^4.19.4"
   }
 }

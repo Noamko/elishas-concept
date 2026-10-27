@@ -11,7 +11,12 @@ export default defineConfig({
     port: Number(process.env.PORT) || 5173,
     strictPort: true,
   },
+  preview: {
+    port: Number(process.env.PORT) || 4173,
+  },
   build: {
+    // ספריות נגן הווידאו (Mux + Media Chrome) גדולות, אבל נטענות רק בדף הקורס כשמוצג סרטון
+    chunkSizeWarningLimit: 900,
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),

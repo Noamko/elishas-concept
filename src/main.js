@@ -27,7 +27,6 @@ nav?.querySelectorAll('a').forEach((link) => {
 const PRODUCTS = {
   'book-concept': 'הספר ״אלישע׳ס קונספט״',
   'book-tmj': 'הספר על הטיפול הפיזיותרפי ב־TMD',
-  course: 'הקורס הדיגיטלי — אלישע׳ס קונספט',
 }
 
 const dialog = document.getElementById('buy-dialog')

@@ -1,0 +1,198 @@
+<!-- נגן הווידאו של Bunny בעיצוב האתר אלישע׳ס קונספט.
+     להדבקה ב-Bunny: Stream → הספרייה → Player → Custom HTML head (במקום כל מה שהיה שם) -->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap');
+
+  /* הקידומת html:root מגבירה את קדימות הכללים, כך שהם גוברים על עיצוב ברירת המחדל של Bunny */
+
+  html:root body {
+    font-family: 'Heebo', system-ui, sans-serif;
+    background: #0B1F1C;
+  }
+
+  html:root media-controller {
+    --media-font-family: 'Heebo', system-ui, sans-serif;
+    --media-secondary-color: #0F6E64;
+    --media-control-hover-background: rgba(255, 255, 255, 0.14);
+    --media-button-icon-height: 20px;
+    --media-focus-box-shadow: inset 0 0 0 2px rgba(245, 158, 11, 0.95);
+  }
+
+  /* ===== כפתור ההפעלה: כפתור כתום עם טקסט, כמו כפתורי האתר ===== */
+  html:root media-controller media-play-button.large-play {
+    width: auto;
+    height: auto;
+    padding: 15px 30px 15px 24px;
+    gap: 10px;
+    border-radius: 999px;
+    background: #D97706;
+    color: #fff;
+    direction: rtl;
+    white-space: nowrap;
+    font: 700 19px/1 'Heebo', system-ui, sans-serif;
+    --media-button-icon-height: 24px;
+    box-shadow: 0 18px 40px -12px rgba(180, 83, 9, 0.65), 0 0 0 8px rgba(217, 119, 6, 0.18);
+    transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+  }
+  html:root media-controller media-play-button.large-play:hover {
+    background: #B45309;
+    transform: translate(-50%, calc(-50% - 2px));
+    box-shadow: 0 22px 44px -12px rgba(180, 83, 9, 0.75), 0 0 0 10px rgba(217, 119, 6, 0.22);
+  }
+  /* הטקסט משתנה לפי המצב: צפייה ראשונה, חזרה לאמצע השיעור, סוף השיעור */
+  html:root media-controller media-play-button.large-play::after { content: 'צפו בשיעור'; }
+  html:root media-controller[mediacurrenttime]:not([mediacurrenttime="0"]) media-play-button.large-play::after { content: 'המשך צפייה'; }
+  html:root media-controller[mediacurrenttime][mediaended] media-play-button.large-play::after { content: 'צפייה חוזרת'; }
+
+  /* ===== הצללה עדינה כשהסרטון עצור ===== */
+  html:root media-controller[mediapaused]::part(centered-layer) {
+    background: radial-gradient(120% 100% at 50% 45%, rgba(11, 31, 28, 0.05), rgba(11, 31, 28, 0.6));
+  }
+
+  /* ===== תג המותג בפינה: מוצג כשהסרטון עצור או כשמזיזים את העכבר ===== */
+  html:root media-controller::before {
+    content: 'אלישע׳ס קונספט';
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 5;
+    padding: 7px 42px 7px 14px;
+    border-radius: 999px;
+    font: 700 14px/20px 'Heebo', system-ui, sans-serif;
+    color: #fff;
+    background: rgba(11, 31, 28, 0.55) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='7' fill='%230F6E64'/%3E%3Cpath d='M5 17C8 7 10 18 13 10c2-5 4-2 6-4' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 7px center / 26px 26px;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  html:root media-controller[userinactive]:not([mediapaused])::before { opacity: 0; }
+
+  /* ===== לוח בקרה צף מזכוכית ===== */
+  html:root media-controller media-control-bar:first-of-type,
+  html:root media-controller bunny-media-control-bar {
+    box-sizing: border-box;
+    width: calc(100% - 28px);
+    margin-inline: 14px;
+    background: rgba(11, 31, 28, 0.62);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+  }
+  html:root media-controller media-control-bar:first-of-type {
+    padding: 10px 16px 0;
+    border-radius: 18px 18px 0 0;
+  }
+  html:root media-controller bunny-media-control-bar {
+    margin-bottom: 14px;
+    padding: 2px 10px 8px;
+    gap: 4px;
+    border-radius: 0 0 18px 18px;
+  }
+  html:root bunny-media-control-bar :is(media-play-button, media-seek-backward-button, media-seek-forward-button, media-mute-button, bunny-settings-menu-button, media-pip-button, media-fullscreen-button, media-cast-button, media-airplay-button) {
+    border-radius: 12px;
+  }
+
+  /* ===== פס ההתקדמות ועוצמת הקול ===== */
+  html:root bunny-media-time-range {
+    --media-range-track-height: 6px;
+    --media-range-track-border-radius: 999px;
+    --media-range-track-background: rgba(255, 255, 255, 0.16);
+    --media-time-range-buffered-color: rgba(255, 255, 255, 0.32);
+    --media-range-bar-color: #F59E0B;
+    --media-range-thumb-width: 15px;
+    --media-range-thumb-height: 15px;
+    --media-range-thumb-background: #fff;
+    --media-preview-background: rgba(11, 31, 28, 0.92);
+    --media-box-border-radius: 10px;
+    --media-control-hover-background: transparent;
+  }
+  html:root bunny-media-time-range:hover { --media-range-track-height: 8px; }
+  html:root bunny-media-time-range::part(progress) {
+    background: linear-gradient(90deg, #D97706, #F59E0B);
+    border-radius: 999px;
+  }
+  html:root bunny-media-time-range::part(thumb) {
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.35);
+  }
+  html:root media-volume-range { --media-range-bar-color: #F59E0B; }
+
+  /* ===== הזמן ===== */
+  html:root bunny-time-display {
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ===== תפריט ההגדרות (מהירות, איכות) ===== */
+  html:root bunny-settings-menu {
+    --media-menu-background: rgba(11, 31, 28, 0.82);
+    --media-menu-border: 1px solid rgba(255, 255, 255, 0.1);
+    --media-menu-border-radius: 16px;
+  }
+  html:root media-controller bunny-settings-menu {
+    right: 14px;
+    bottom: 114px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 24px 50px -20px rgba(0, 0, 0, 0.6);
+  }
+  html:root bunny-settings-menu::part(container) { backdrop-filter: blur(16px) saturate(140%); }
+  html:root bunny-settings-menu-item::part(checked-indicator) { color: #F59E0B; }
+  html:root bunny-settings-menu :is(bunny-settings-menu-item, [role="menuitemradio"]):focus-visible {
+    box-shadow: inset 0 0 0 2px rgba(245, 158, 11, 0.95);
+  }
+
+  /* ===== כתוביות ===== */
+  html:root bunny-stream-video,
+  html:root bunny-captions-display {
+    --captions-font-family: 'Heebo', system-ui, sans-serif;
+  }
+
+  /* ===== נגן צר (טלפונים): כפתור קטן יותר, לוגו בלבד, לוח דק יותר ===== */
+  html:root media-controller:not([breakpointsm]) media-play-button.large-play {
+    top: 40%;
+    padding: 9px 18px 9px 14px;
+    gap: 7px;
+    font-size: 15px;
+    --media-button-icon-height: 18px;
+    box-shadow: 0 12px 28px -10px rgba(180, 83, 9, 0.65), 0 0 0 5px rgba(217, 119, 6, 0.18);
+  }
+  html:root media-controller:not([breakpointsm])::before {
+    content: '';
+    top: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+    background-position: center;
+    background-size: 28px 28px;
+    backdrop-filter: none;
+  }
+  html:root media-controller:not([breakpointsm]) media-control-bar:first-of-type,
+  html:root media-controller:not([breakpointsm]) bunny-media-control-bar {
+    width: calc(100% - 16px);
+    margin-inline: 8px;
+  }
+  html:root media-controller:not([breakpointsm]) media-control-bar:first-of-type {
+    padding: 4px 10px 0;
+    border-radius: 14px 14px 0 0;
+  }
+  html:root media-controller:not([breakpointsm]) bunny-media-control-bar {
+    margin-bottom: 8px;
+    padding: 0 4px 4px;
+    border-radius: 0 0 14px 14px;
+    --media-button-icon-height: 18px;
+  }
+  html:root media-controller:not([breakpointsm]) bunny-time-display {
+    padding: 2px 8px;
+    font-size: 12px;
+  }
+  html:root media-controller:not([breakpointsm]) bunny-settings-menu {
+    right: 8px;
+    bottom: 90px;
+  }
+</style>
